@@ -1,2 +1,2 @@
 # cpp-testbench
-CPP testbench with Zig
+Cpptestbench with Zig
