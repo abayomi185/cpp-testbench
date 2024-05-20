@@ -1,3 +1,8 @@
+// See:
+// https://github.com/ggerganov/ggml/blob/master/build.zig
+// and
+// https://github.com/raysan5/raylib/blob/master/src/build.zig
+// for examples of how to build a C++ project with Zig
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
