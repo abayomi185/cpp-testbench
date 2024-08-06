@@ -8,8 +8,21 @@ const std = @import("std");
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+
+    const src_dir = try std.fs.cwd().openDir("src");
+    var it = try src_dir.iterate();
+
     const exe = b.addExecutable(.{ .name = "main", .target = target, .optimize = optimize });
-    exe.addCSourceFile(.{ .file = .{ .path = "src/main.cpp" }, .flags = &.{"-std=c++14"} });
+
+    while (try it.next()) |entry| {
+        if (entry.kind == .File and entry.name.endsWith(".cpp")) {
+            exe.addCSourceFile(.{
+                .file = .{ .path = "src/" ++ entry.name },
+                .flags = &.{"-std=c++14"},
+            });
+        }
+    }
+
     exe.linkSystemLibrary("c++");
     exe.linkLibCpp();
     b.installArtifact(exe);
